@@ -1,4 +1,6 @@
 import requests
+from post import Post
+import time
 
 headers = {
   'Content-Type': 'application/json',
@@ -18,11 +20,17 @@ for page in ret:
     continue
   if 'public' not in page['properties']:
     continue
+  if 'title' not in page['properties']:
+    continue
   if page['properties']['public'] != True:
     continue
+  # print(page['properties'])
   new_name = page['properties']["title"].replace("/", "-").replace(" ", "-")
+  updated = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
+  post = Post(page['properties']["title"], updated, updated, [], "Note")
   file_name = "notes/{}.md".format(new_name)
-  out = 
-  print(page)
+  out = open(file_name, "w")
+  out.write(str(post))
+  # print(page)
 # out = open("test.md", "w")
 # out.write())
