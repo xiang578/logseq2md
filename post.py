@@ -19,5 +19,5 @@ class Post():
         ret.append("categories: {}".format(self.categories))
         ret.append("toc: true")
         ret.append("mathjax: true")
-        ret.append("---")
+        ret.append("---\n\n")
         return "\n".join(ret)
