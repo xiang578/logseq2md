@@ -12,10 +12,17 @@ def decode_block(block, level):
   str = block['content']
   is_h = check_h(str)
   print(str)
-  ret = str + "\n" + ("\n" if is_h else "")
+  ret = ""
+  if level != 0:
+    ret = "- " if level == 1 else "  - "
+  ret += str + "\n" + ("\n" if is_h else "")
   if 'children' in block and block['children'] != []:
     for children in block['children']:
-      ret += decode_block(children, level +1)
+      next_level = level + 1
+      if is_h:
+        next_level = level
+        ret += "\n"
+      ret += decode_block(children, next_level)
   return ret
 
 def send_post(data):
