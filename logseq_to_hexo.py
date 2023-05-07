@@ -62,10 +62,17 @@ for page in all_pages.json():
   # new_name = page['properties']["title"].replace("/", "-").replace(" ", "-")
   data =  {'method': 'logseq.Editor.getPageBlocksTree', 'args': [raw_title]}
   blocks = send_post(data)
+  if 'date' not in page['properties']:
+    create_date = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
+  else:
+    tmp = page['properties']['date'][0]
+    print(tmp)
+    tmp.replace("[[", "").replace("]]", "")
+    create_date = tmp + " 00:00:00" 
   updated = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
   permalink = page['properties']['permalink']
   print(page)
-  post = Post(page["name"], permalink, updated, updated, [], page['properties']['categories'])
+  post = Post(page["name"], permalink, create_date, updated, [], page['properties']['categories'])
 
   file_name = "output/{}.md".format(permalink)
   out = open(file_name, "w")
